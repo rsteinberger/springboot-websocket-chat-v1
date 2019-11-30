@@ -1,0 +1,292 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <title>Cover3</title>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.0/css/bootstrap.min.css">
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.0/js/bootstrap.min.js"></script>
+  <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.4.5/angular.min.js"></script>
+
+<style>
+	body {
+		background-color: #000000;
+	}
+	.buffer {
+		text-align: center;
+		background-color: #dcdcdc;
+		padding-top: 15px;
+		padding-bottom: 15px;	
+	}
+	.section {
+		margin-top: 10px;
+		overflow: hidden;
+	}
+	.card-padding {
+		padding: 15px 15px 15px 15px;
+	}
+
+	.flex-container {
+	  display: flex;
+	  background-color: DodgerBlue;
+	}
+	
+	.flex-container > div {
+	  background-color: #f1f1f1;
+	  margin: 10px;
+	  padding: 20px;
+	  font-size: 30px;
+	}
+
+	.condition-green {
+		background-color: #8feba9;
+	}
+	.condition-yellow {
+		background-color: #ffffb3;
+	}
+	.condition-orange {
+		background-color: #ffbf80;
+	}
+	.condition-red {
+		background-color: #ff9999;
+	}
+	.condition-hot {
+		background-color: #ff00ff;
+	}
+	.condition-cool {
+		background-color: #66ccff;
+	}
+	.condition-offline {
+		background-color: #a6a6a6;
+	}
+	.condition-reset {
+		background-color:  #f2f2f2;
+	}
+	.condition-monitoring {
+		background-color: #b3d9ff;
+	}
+	.card-height {
+		height: 75px;
+	}	
+	
+	
+	</style>
+
+</head>
+<body ng-app="appModule" ng-controller="appController">
+
+<div id="detail" ng-show="showDetail" class="container-fluid buffer" style="line-height: 30px; vertical-align: middle;">
+  	<div class="row">
+	    <div class="col-sm-12" style="">
+			{{configEvents}}
+  			<button type="button" class="btn btn-primary" ng-click="closeDetail()">Close</button>
+		</div>
+	</div>
+</div>
+
+<div id="login" ng-show="showLogin" class="container-fluid buffer" style="line-height: 30px; vertical-align: middle;">
+  	<div class="row">
+	    <div class="col-sm-12" style="">
+		    <input type="text" id="name" placeholder="Username" ng-model="userName" />
+  			<button type="button" class="btn btn-primary" ng-click="login()">Login</button>
+		</div>
+	</div>
+</div>
+
+<div id="config" ng-show="showConfig" class="container-fluid buffer" style="line-height: 30px; vertical-align: middle;">
+  	<div class="row">
+
+
+	    <div class="col-sm-3" style="text-align: left;">
+			<input type="checkbox" ng-model="eventStreamOpen" ng-change=""> Event Stream</input>
+		</div>
+
+	    <div class="col-sm-3" style="text-align: left;">
+			<input type="checkbox" ng-model="showCondition" ng-change=""> Condition</input>
+		</div>
+
+	    <div class="col-sm-3" style="text-align: left;">
+			<input type="checkbox" ng-model="showCameras" ng-change=""> Cameras</input>
+		</div>
+
+	    <div class="col-sm-3" style="text-align: left;">
+			<input type="checkbox" ng-model="showAlerts" ng-change=""> Alerts</input>
+		</div>
+
+		
+
+	</div>
+  	<div class="row">
+	    <div class="col-sm-12" style="text-align: center; margin-top: 20px;">
+  			<button type="button" class="btn btn-primary" ng-click="updateConfig()">Confirm</button>
+		</div>
+	</div>
+</div>
+
+<div id="header" ng-show="showHeader" class="container-fluid buffer" style="line-height: 30px; vertical-align: middle; text-align: left; border-bottom: 2px #000000 solid">
+  	<div class="row">
+	    <div class="col-sm-6" style="font-size: 18px;">
+			<b>{{userName}}</b>
+		</div>
+	    <div class="col-sm-6" style="text-align: right;">
+  			<button ng-show="!eventStreamOpen" type="button" class="btn btn-warning" ng-click="configDialog()">Event Stream</button>
+  			<button type="button" class="btn btn-primary" ng-click="configDialog()">Configuration</button>
+		</div>
+	</div>
+</div>
+
+<div id="page" ng-show="showPage">
+
+	<div id="condition" ng-show="showCondition" class="section">
+		<div class="container-fluid">
+		  <div class="row">
+
+		    <div class="col-sm-2" style="">		      
+		    </div>
+		    <div id="cona" ng-click="dtl('cona')" class="col-sm-8 condition-reset" style="text-align: center; border-radius: 5px; height: 50px; line-height: 50px">
+		      CONDITION
+		    </div>
+		    <div class="col-sm-2" style="">
+		    </div>
+
+		  </div>
+		</div>
+	</div>
+
+	<div id="cameras" ng-show="showCameras" class="section">
+		<div class="container-fluid">
+
+		  <div class="row">
+		  
+		    <div class="col-sm-2" style="">		      
+		    </div>
+
+		    <div class="col-sm-8" style="">
+			<div class="row">
+			    <div class="col-sm-3" style="" ng-click="dtl('cameraa')">
+				    <div id="cameraa" class="condition-reset" style="text-align: center; border-radius: 5px; height: 50px; line-height: 50px">
+				      CAM
+				    </div>
+				</div>
+			    <div class="col-sm-3" style="" ng-click="dtl('camerab')">
+				    <div id="camerab" class="condition-reset" style="text-align: center;  border-radius: 5px; height: 50px; line-height: 50px">
+				      CAM
+				    </div>
+				</div>
+			    <div class="col-sm-3" style="" ng-click="dtl('camerac')">
+				    <div id="camerac" class="condition-reset" style="text-align: center;  border-radius: 5px; height: 50px; line-height: 50px">
+				      CAM
+				    </div>
+				</div>
+			    <div class="col-sm-3" style="" ng-click="dtl('camerad')">
+				    <div id="camerad" class="condition-reset" style="text-align: center; border-radius: 5px; height: 50px; line-height: 50px">
+				      CAM
+				    </div>
+				</div>
+			</div>
+			</div>
+
+		    <div class="col-sm-2" style="">
+		    </div>
+		    
+		  </div>
+		</div>
+	</div>
+
+	<div id="alerts" ng-show="showAlerts" class="section">		
+	<div class="container-fluid">
+		<div class="row">
+		  <div class="col-sm-4">
+		    <div id="alerta" class="card card-padding condition-reset" style="border-radius: 5px;" ng-click="dtl('areaa')">
+		      <div class="card-body">
+		        <h5 id="alertaTitle" class="card-title">Offline</h5>
+		        <p id="alertaArea" class="card-text card-height">
+
+		        </p>
+		        <!-- <a href="#" class="btn btn-primary">Go somewhere</a> -->
+		      </div>
+		    </div>
+		  </div>
+		  <div class="col-sm-4">
+		    <div id="alertb" class="card card-padding condition-reset" style="border-radius: 5px;" ng-click="dtl('areab')">
+		      <div class="card-body">
+		        <h5 id="alertbTitle" class="card-title">Offline</h5>
+		        <p id="alertbArea" class="card-text card-height">
+		        </p>
+		        <!-- <a href="#" class="btn btn-primary">Go somewhere</a> -->
+		      </div>
+		    </div>
+		  </div>
+		  <div class="col-sm-4">
+		    <div id="alertc" class="card card-padding condition-reset" style="border-radius: 5px;" ng-click="dtl('areac')">
+		      <div class="card-body">
+		        <h5 id="alertcTitle" class="card-title">Offline</h5>
+		        <p id="alertcArea" class="card-text card-height">
+
+				</p>
+		        <!-- <a href="#" class="btn btn-primary">Go somewhere</a> -->
+		      </div>
+		    </div>
+		  </div>
+		  
+		</div>
+	</div>
+	</div>	
+
+	<div class="section">
+	<div id="events" class="container-fluid">
+		<div class="row">
+			<div class="col-sm-12" style="color: #a6a6a6">
+				COMMS
+			</div>
+		</div>
+		<div class="row">
+		  <div class="col-sm-12">
+		    <div class="card card-padding" style="background-color: #dcdcdc;  border-radius: 5px;">
+		      <div class="card-body">
+		        <!-- <h5 class="card-title">Special title treatment</h5> -->
+		        <p id="commArea" class="card-text" style="max-height: 100px; overflow: hidden; ">
+		        
+		        </p>
+		        <!-- <a href="#" class="btn btn-primary">Go somewhere</a> -->
+		      </div>
+		    </div>
+		  </div>
+	  </div>
+	</div>
+	</div>
+
+	<div class="section">
+	<div id="rawevents" class="container-fluid">
+		<div class="row">
+			<div class="col-sm-12" style="color: #a6a6a6">
+				EVENTS
+			</div>
+		</div>
+		<div class="row">
+		  <div class="col-sm-12">
+		    <div class="card card-padding" style="background-color: #dcdcdc;  border-radius: 5px;">
+		      <div class="card-body">
+		        <!-- <h5 class="card-title">Special title treatment</h5> -->
+		        <p id="configArea" class="card-text" style="max-height: 100px; overflow: hidden; ">
+		        
+		        </p>
+		        <!-- <a href="#" class="btn btn-primary">Go somewhere</a> -->
+		      </div>
+		    </div>
+		  </div>
+	  </div>
+	</div>
+	</div>
+	
+</div> <!-- Page -->
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/sockjs-client/1.1.4/sockjs.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/stomp.js/2.3.3/stomp.min.js"></script>
+<script src="js/main.js"></script>
+
+
+</body>
+</html>
+
