@@ -12,6 +12,8 @@
 
 **2. Build and run the app using maven**
 
+**3. Login as 'admin' no password**
+
 ```bash
 cd ...
 mvn package
