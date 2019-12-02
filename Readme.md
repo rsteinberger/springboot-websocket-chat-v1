@@ -1,5 +1,11 @@
 ## Spring Boot WebSocket Appplication Demo
 
+Based on
+
+https://www.callicoder.com/spring-boot-websocket-chat-example/
+
+
+
 ## Requirements
 
 1. Java - 1.8.x

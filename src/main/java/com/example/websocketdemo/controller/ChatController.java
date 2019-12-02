@@ -137,7 +137,7 @@ public class ChatController {
         	msg.setSender("auto");
         	msg.setDate(strTime);
         	
-        	if(event.contains("comm") && user.getType().equals(UserModel.UserType.NORMAL)) {
+        	if(event.contains("comm") && user.getType().equals(UserModel.UserType.NORMAL) || event.contains("comm") && user.getType().equals(UserModel.UserType.PUBLIC)) {
         		// do not send
         	}else {
         		if(  user.getType().equals(UserModel.UserType.ADMIN)  ) {
@@ -146,7 +146,9 @@ public class ChatController {
         		if(  user.getType().equals(UserModel.UserType.NORMAL)  ) {
                 	messagingTemplate.convertAndSend("/topic/normal", msg);        			
         		}
-
+        		if(  user.getType().equals(UserModel.UserType.PUBLIC)  ) {
+                	messagingTemplate.convertAndSend("/topic/public", msg);        			
+        		}
         	}
 
             try {

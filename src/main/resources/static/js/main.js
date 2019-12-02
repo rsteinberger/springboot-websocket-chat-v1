@@ -49,9 +49,17 @@ app.controller("appController", function($scope) {
 	    }
 	    if($scope.userName.toLowerCase() == "normal") {
 		    setDom(false, true, true, false, false, true, false, true);
-	    }else{
-		    setDom(false, true, true, false, false, true, true, true);	    	
 	    }
+	    if($scope.userName.toLowerCase() == "public") {
+		    setDom(false, true, true, false, false, true, false, false);
+	    }	    
+	    if($scope.userName.toLowerCase() == "admin") {
+		    setDom(false, true, true, false, false, true, true, true);
+	    }
+	    
+//	    else{
+//		    setDom(false, true, true, false, false, true, true, true);	    	
+//	    }
 
 				
 	}
@@ -84,13 +92,15 @@ app.controller("appController", function($scope) {
     	console.log($scope.userName.toLowerCase())
     	if($scope.userName.toLowerCase() == "admin") {
     	    stompClient.subscribe('/topic/admin', onMessageReceived);
-    	    stompClient.subscribe('/topic/public', onMessageReceived);
+//    	    stompClient.subscribe('/topic/public', onMessageReceived);
     	}
     	if($scope.userName.toLowerCase() == "normal") {
     	    stompClient.subscribe('/topic/normal', onMessageReceived);		
+//    	    stompClient.subscribe('/topic/public', onMessageReceived);
+    	}	
+    	if($scope.userName.toLowerCase() == "public") {
     	    stompClient.subscribe('/topic/public', onMessageReceived);
     	}	
-
         // Tell your username to the server
         stompClient.send("/app/chat.addUser",
             {},
